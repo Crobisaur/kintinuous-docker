@@ -1,5 +1,6 @@
 FROM nvidia/opengl:1.1-glvnd-devel-ubuntu14.04
 
+ENV NVIDIA_DRIVER_CAPABILITIES ${NVIDIA_DRIVER_CAPABILITIES},display
 
 RUN \
   apt-get update -qq && \
@@ -16,8 +17,12 @@ RUN \
   python-vtk\
   libvtk-java\
   libglew-dev\
-  cuda-7-5\
+  #cuda-7-5\
   libsuitesparse-dev\
   openexr\
-  sudo
+  sudo\
+ rm -r -f /var/lib/apt/lists/*
+
+run git clone https://github.com/mp3guy/Kintinuous.git /opt/kintinuous &&\
+  cd /opt/kintinuous
 
