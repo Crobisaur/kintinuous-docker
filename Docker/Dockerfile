@@ -20,9 +20,26 @@ RUN \
   #cuda-7-5\
   libsuitesparse-dev\
   openexr\
-  sudo\
- rm -r -f /var/lib/apt/lists/*
+  sudo \
+  && rm -rf /var/lib/apt/lists/*
 
-run git clone https://github.com/mp3guy/Kintinuous.git /opt/kintinuous &&\
+RUN sudo add-apt-repository -y ppa:v-launchpad-jochen-prickerhof-de/pcl &&\
+  sudo apt-get update && \
+  sudo apt-get install -y libpcl-all && \
+  rm -rf /var/lib/apt/lists/*
+
+### Gotta build pakcages OpenCV DLib, DBoW2, DLoopDetector, iSAM and Pangolin
+### from source in this order because reasons
+
+RUN git clone https://github.com/opencv/opencv.git /opt/opencv && \
+  cd /opt/opencv && \
+  git checkout tags/2.4.9 && \
+  
+RUN git clone https://github.com/dorian3d/DLib.git /opt/DLib && \
+  cd /opt/DLib 
+
+
+#build this junk last
+RUN git clone https://github.com/mp3guy/Kintinuous.git /opt/kintinuous &&\
   cd /opt/kintinuous
 
